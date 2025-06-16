@@ -383,7 +383,7 @@
             to { transform: rotateX(360deg) rotateY(360deg); }
         }
 
-        /* Ribbon effect for section headers */
+        
         .section-title {
             position: relative;
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
@@ -406,7 +406,7 @@
             border-bottom: 20px solid transparent;
         }
 
-        /* Checkbox styling */
+        
         .fancy-checkbox .form-check-input {
             position: relative;
             cursor: pointer;
@@ -501,20 +501,20 @@
     </style>
 </head>
 <body>
-    <!-- Background animation -->
+    
     <div class="bg-circles">
         <div class="circle"></div>
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
 
-    <!-- Loading indicator -->
+    
     <div id="loading">
         <div class="spinner"></div>
         <p class="mt-3">Carregando Exames...</p>
     </div>
 
-    <!-- Toast notification -->
+    
     <div class="toast" id="copyToast">Copiado para a área de transferência!</div>
 
     <nav class="navbar navbar-expand-lg navbar-dark mb-4">
@@ -644,10 +644,10 @@
                     </div>
                 </div>
 
-                <!-- Table container -->
+                
                 <div id="tabelaContainer" class="table-responsive mt-4" data-aos="fade-up" data-aos-delay="100"></div>
 
-                <!-- Checkbox section -->
+                
                 <div class="card main-card mt-5" data-aos="fade-up" data-aos-delay="200">
                     <div class="card-header">
                         <h3 class="mb-0">
@@ -680,7 +680,7 @@
                         </div>
                         
                         <div id="checkbox-list" class="fancy-checkbox">
-                            <!-- Checkboxes serão inseridos aqui via JavaScript -->
+                            
                         </div>
                     </div>
                 </div>
@@ -695,7 +695,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Inicializar bibliotecas
+        
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({
                 duration: 800,
@@ -703,7 +703,7 @@
                 once: true
             });
             
-            // Esconder o loading após carregar a página
+            
             setTimeout(() => {
                 document.getElementById('loading').style.opacity = '0';
                 setTimeout(() => {
@@ -711,11 +711,11 @@
                 }, 500);
             }, 1000);
             
-            // Preencher os checkboxes dinamicamente
+            
             preencherCheckboxes();
         });
         
-        // Lista de exames com suas categorias
+        
         const examesCategorizados = [
             { id: "Hb", nome: "Hb", categoria: "Hematologia" },
             { id: "Ht", nome: "Ht", categoria: "Hematologia" },
@@ -982,10 +982,10 @@
             { id: "LCR.Hem", nome: "LCR.Hem", categoria: "Bioquímica" }
         ];
         
-        // Verificar todos por padrão
+        
         let allChecked = true;
         
-        // Função para preencher os checkboxes dinamicamente
+        
         function preencherCheckboxes() {
             const checkboxList = document.getElementById('checkbox-list');
             checkboxList.innerHTML = '';
@@ -1004,7 +1004,7 @@
             });
         }
         
-        // Função para filtrar exames pela barra de pesquisa
+        
         function filterExams() {
             const searchValue = document.getElementById('searchExams').value.toLowerCase();
             const checkboxes = document.querySelectorAll('#checkbox-list .form-check');
@@ -1020,7 +1020,7 @@
             });
         }
         
-        // Função para filtrar exames por categoria
+        
         function filterByCategory(categoria) {
             const checkboxes = document.querySelectorAll('#checkbox-list .form-check');
             
@@ -1032,7 +1032,7 @@
                 }
             });
             
-            // Destaque para a categoria selecionada
+            
             document.querySelectorAll('.category-badge').forEach(badge => {
                 if (badge.textContent === categoria || (badge.textContent === 'Todos' && categoria === 'todos')) {
                     badge.style.background = 'var(--primary-color)';
@@ -1044,7 +1044,7 @@
             });
         }
         
-        // Função para selecionar/desmarcar todos os exames
+        
         function toggleAllExams() {
             const checkboxes = document.querySelectorAll('#checkbox-list .form-check-input');
             allChecked = !allChecked;
@@ -1056,7 +1056,7 @@
             document.getElementById('selectAllBtn').textContent = allChecked ? 'Desmarcar Todos' : 'Selecionar Todos';
         }
         
-        // Função para copiar o resultado para a área de transferência
+        
         function copyToClipboard() {
             const text = document.getElementById('resultadoCompactado').innerText;
             navigator.clipboard.writeText(text).then(() => {
@@ -1107,35 +1107,35 @@
                     }
                 });
 
-                ordenarDados(dados, ordemSelecionada); // Passa a ordem selecionada para a função de ordenação
+                ordenarDados(dados, ordemSelecionada); 
 
                 const tabela = document.createElement('table');
-                tabela.className = "table table-bordered table-striped table-hover animate-slide-up"; // Added Bootstrap classes
-                const thead = tabela.createTHead(); // Create table head
-                thead.className = "table-light"; // Style header
-                const linhaDatas = thead.insertRow(); // Add header row
-                linhaDatas.insertCell().textContent = "Exame"; // Header for exam names column
+                tabela.className = "table table-bordered table-striped table-hover animate-slide-up"; 
+                const thead = tabela.createTHead(); 
+                thead.className = "table-light"; 
+                const linhaDatas = thead.insertRow(); 
+                linhaDatas.insertCell().textContent = "Exame"; 
                 const datasExibidas = dados.slice(0, MAX_COLUNAS);
                 datasExibidas.forEach(exameData => {
                     const cell = linhaDatas.insertCell();
                     cell.textContent = exameData.DataHora;
-                    cell.style.textAlign = "center"; // Keep center alignment for dates
+                    cell.style.textAlign = "center"; 
                 });
 
-                const tbody = tabela.createTBody(); // Create table body
+                const tbody = tabela.createTBody(); 
                 todosExames.forEach(nomeExame => {
-                    const linhaExame = tbody.insertRow(); // Add rows to body
-                    const cellExame = linhaExame.insertCell(); // Cell for exam name
+                    const linhaExame = tbody.insertRow(); 
+                    const cellExame = linhaExame.insertCell(); 
                     cellExame.textContent = nomeExame;
-                    cellExame.style.fontWeight = "bold"; // Make exam names bold
+                    cellExame.style.fontWeight = "bold"; 
 
                     datasExibidas.forEach(exameData => {
                         const valor = exameData[nomeExame] || '-';
                         const cell = linhaExame.insertCell();
                         cell.textContent = valor;
-                        cell.style.textAlign = "center"; // Center align values
+                        cell.style.textAlign = "center"; 
                         
-                        // Destacar valores alterados
+                        
                         if (valor !== '-' && !valoralterado(nomeExame, valor)) {
                             cell.style.color = "red";
                             cell.style.fontWeight = "bold";
@@ -1144,40 +1144,40 @@
                 });
 
                 const container = document.getElementById("tabelaContainer");
-                container.innerHTML = ""; // Clear previous table
+                container.innerHTML = ""; 
                 container.appendChild(tabela);
                 
                 btnTabela.innerHTML = '<i class="fas fa-table me-2"></i> Gerar Tabela';
                 
-                // Animar scroll até a tabela
+                
                 setTimeout(() => {
                     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 300);
             }, 500);
         }
 
-        function ordenarDados(dados, ordem) { // Recebe o parâmetro ordem
+        function ordenarDados(dados, ordem) { 
             dados.sort((a, b) => {
                 const dataHoraA = a.DataHora.split(/\s+/);
                 const dataHoraB = b.DataHora.split(/\s+/);
 
                 let dataA, dataB, horaA, horaB;
 
-                // Verifica se há partes suficientes para extrair data e hora
+                
                 if (dataHoraA.length >= 1) {
                     const partesDataA = dataHoraA[0].split('/');
-                    // Garantir que temos pelo menos dia e mês
+                    
                     if (partesDataA.length >= 2) {
-                        // Dia e mês
+                        
                         const dia = partesDataA[0].padStart(2, '0');
                         const mes = partesDataA[1].padStart(2, '0');
-                        // Ano (pode não estar presente)
+                        
                         const ano = partesDataA.length >= 3 ? partesDataA[2].padStart(2, '0') : '00';
                         dataA = `${ano}${mes}${dia}`;
                     } else {
-                        dataA = '000000'; // Valor padrão se a data estiver em formato inválido
+                        dataA = '000000'; 
                     }
-                    // Hora (pode não estar presente)
+                    
                     horaA = dataHoraA.length >= 2 ? dataHoraA[1].replace(':', '') : '0000';
                 } else {
                     dataA = '000000';
@@ -1254,15 +1254,15 @@
                                 // Categorize the exam here
                                 let categoria = categorizarExame(nomeExame);
                                 if (!resultadosOrdenados[categoria]) {
-                                    resultadosOrdenados[categoria] = {};  // Change to object
+                                    resultadosOrdenados[categoria] = {};  
                                 }
                                 if (!resultadosOrdenados[categoria][dataHora]) {
-                                    resultadosOrdenados[categoria][dataHora] = []; // Store exams in array
+                                    resultadosOrdenados[categoria][dataHora] = []; 
                                 }
                                 resultadosOrdenados[categoria][dataHora].push({ nomeExame: nomeExame, valorExame: valorExame });
                             } else {
-                                // Handle cases where there is no exame name
-                                let categoria = "Outros"; // Or another default category
+                                
+                                let categoria = "Outros"; 
                                 if (!resultadosOrdenados[categoria]) {
                                     resultadosOrdenados[categoria] = {};
                                 }
@@ -1275,7 +1275,7 @@
                     }
                 });
 
-                // Collect categories and prioritize "Outros"
+                
                 let categoriasOrdenadas = Object.keys(resultadosOrdenados);
                 const indexOutros = categoriasOrdenadas.indexOf("Outros");
                 if (indexOutros > -1) {
@@ -1283,14 +1283,14 @@
                     categoriasOrdenadas.push("Outros");
                 }
 
-                // Format the output using the ordered categories
+                
                 let resultado = "";
                 for (const categoria of categoriasOrdenadas) {
                     resultado += `\n> ${categoria}\n`;
-                    // Convert to array and sort
+                    
                     const datasHora = Object.keys(resultadosOrdenados[categoria]);
                     
-                    // Ordenar datas (usando a função de ordenarDados adaptada)
+                    
                     datasHora.sort((a, b) => {
                         const dataHoraA = a.split(/\s+/);
                         const dataHoraB = b.split(/\s+/);
@@ -1333,15 +1333,15 @@
                         const dataCompletaB = dataB + horaB;
 
                         if (ordemSelecionada === "decrescente") {
-                            return dataCompletaB.localeCompare(dataCompletaA); // Decrescente
+                            return dataCompletaB.localeCompare(dataCompletaA); 
                         } else {
-                            return dataCompletaA.localeCompare(dataCompletaB); // Crescente
+                            return dataCompletaA.localeCompare(dataCompletaB); 
                         }
                     });
                     
                     for (const dataHora of datasHora) {
                         let exams = resultadosOrdenados[categoria][dataHora].map(item => `${item.nomeExame} ${item.valorExame}`).join(" / ");
-                        // Join exams with " / "
+                        
                         resultado += `- ${dataHora}: ${exams}\n`;
                     }
                 }
@@ -1349,19 +1349,19 @@
                 
                 btnCategorizar.innerHTML = '<i class="fas fa-tags me-2"></i> Categorizar Exames';
                 
-                // Animar scroll até o resultado
+                
                 document.getElementById('resultadoCompactado').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 500);
         }
 
         function categorizarExame(nomeExame) {
-            // Encontrar a categoria do exame na lista de exames categorizados
+            
             const exame = examesCategorizados.find(e => e.id === nomeExame);
             if (exame) {
                 return exame.categoria;
             }
             
-            // Se não encontrar na lista, usar o código antigo como fallback
+            
             if (nomeExame === "Sífilis" || nomeExame === "VDRL" || nomeExame === "HepA.IgG" || nomeExame === "HepA.IgM" || nomeExame === "HepB.AgHBs" || nomeExame === "HepB.AgHBe" || nomeExame === "HepB.AntiHBs" || nomeExame === "HepB.AntiHBc" || nomeExame === "HepB.AntiHBc.IgM" || nomeExame === "HepB.AntiHBe" || nomeExame === "HBV.CV" || nomeExame === "HepC" || nomeExame === "HCV.CV" || nomeExame === "HIV1/2" || nomeExame === "HIV1/2.Imunoblot" || nomeExame === "HIV1.CV" || nomeExame === "HTLV1/2" || nomeExame === "Chagas" || nomeExame === "CMV.IgG" || nomeExame === "CMV.IgM" || nomeExame === "CMV.CV" || nomeExame === "HSV.IgG" || nomeExame === "HSV.IgM" || nomeExame === "Toxo.IgG" || nomeExame === "Toxo.IgM" || nomeExame === "EBV.IgM" || nomeExame === "EBV.IgG" || nomeExame === "Varicela.IgM" || nomeExame === "Varicela.IgG" || nomeExame === "Sarampo.IgM" || nomeExame === "Sarampo.IgG" || nomeExame === "Caxumba.IgM" || nomeExame === "Caxumba.IgG" || nomeExame === "IGRA" || nomeExame === "PPD" || nomeExame === "Aspergillus.Imunodif" || nomeExame === "Paracoco.Imunodif" || nomeExame === "Histoplasma.Imunodif" || nomeExame === "Paracoco.Contraimuno" || nomeExame === "Aspergillus.Contraimuno" || nomeExame === "Histoplasma.Contraimuno" || nomeExame === "TR.COVID" || nomeExame === "PCR.COVID" || nomeExame === "PCR.FluA" || nomeExame === "PCR.FluB" || nomeExame === "PCR.VSR" || nomeExame === "Dengue.NS1" || nomeExame === "Dengue.IgG" || nomeExame === "Dengue.IgM") {
                 return "Sorologias";
             } else if (nomeExame === "FAN" || nomeExame === "FAN.Titulo" || nomeExame === "FatorReu" || nomeExame === "Anti-CCP" || nomeExame === "Anti-dsDNA" || nomeExame === "Anti-dsDNA.IFI" || nomeExame === "Anti-Sm" || nomeExame === "Anti-Ro" || nomeExame === "Anti-La" || nomeExame === "aCL.IgG" || nomeExame === "aCL.IgM" || nomeExame === "b2GPI.IgG" || nomeExame === "b2GPI.IgM" || nomeExame === "Anticoag.Lupico" || nomeExame === "Anti-RNP" || nomeExame === "Anti-P" || nomeExame === "Anti-Jo1" || nomeExame === "Anti-Scl70" || nomeExame === "Anti-LKM1" || nomeExame === "Anti-ML" || nomeExame === "Anti-ML.Titulo" || nomeExame === "ANCA" || nomeExame === "Anti-MPO" || nomeExame === "Anti-PR3" || nomeExame === "LipoA" || nomeExame === "C4" || nomeExame === "C3") {
@@ -1411,7 +1411,7 @@
         }
 
         function valoralterado(nomeExame, valorExame) {
-            // Tratamento para garantir que valorExame seja uma string
+            
             valorExame = String(valorExame);
             
             switch (nomeExame) {
@@ -1461,7 +1461,7 @@
             valorExame = parseFloat(valorExame.replace(',', '.'));
             return valorExame <= 5;
         case 'Na':
-            valorExame = parseInt(valorExame); // Sódio geralmente é um valor inteiro
+            valorExame = parseInt(valorExame); 
             return valorExame >= 136 && valorExame <= 145;
         case 'K':
             valorExame = parseFloat(valorExame.replace(',', '.'));
@@ -1922,7 +1922,7 @@
             valorExame = parseFloat(valorExame.replace(',', '.'));
             return valorExame <= 37;
         default:
-            return true; // Se o exame não estiver na lista, consideramos normal
+            return true; 
         }
     }
 
@@ -1967,7 +1967,7 @@
             }
         }
 
-        // Hemograma
+        
         adicionarExame('Hb', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEMOGRAMA COMPLETO[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,200}Hemoglobina\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Ht', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEMOGRAMA COMPLETO[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,200}Hematócrito\s*(\d+(?:,\d+)?)/g);
         adicionarExame('VCM', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEMOGRAMA COMPLETO[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,200}VCM\s*(\d+(?:,\d+)?)/g);
@@ -1993,7 +1993,7 @@
         adicionarExame('HaptoGlob', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HAPTOGLOBINA[\s\S]{0,100}HAPTOGLOBINA\s*(< 8|\d+(?:,\d+)?)/g);
         adicionarExame('MetHb', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?METAHEMOGLOBINA[\s\S]{0,100}FMetHb\s*(\d+(?:,\d+)? %)/g);
 
-        // Bioquímica
+        
         adicionarExame('Cr', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CREATININA[\s\S]{0,100}CREATININA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Ur', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?URÉIA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('PCR', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PROTEÍNA C REATIVA \(PCR\)\s*(< 1,00|\d+(?:,\d+)?)/g);
@@ -2013,7 +2013,7 @@
         adicionarExame('Cl', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CLORO\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Osmol', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?OSMOLALIDADE,[\s\S]{0,100}(?:SANGUE|SORO)\s*OSMOLALIDADE\s*(\d+(?:,\d+)?)/g);
 
-        // Enzimas hepáticas e função hepática
+        
         adicionarExame('AST', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ASPARTATO AMINO TRANSFERASE\s*(\d+(?:,\d+)?)/g);
         adicionarExame('ALT', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ALANINA AMINOTRANSFERASE\s*(\d+(?:,\d+)?)/g);
         adicionarExame('BT', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?BILIRRUBINA TOTAL\s*(\d+(?:,\d+)?)/g);
@@ -2024,7 +2024,7 @@
         adicionarExame('Amil', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?AMILASE,[\s\S]{0,100}(?:SANGUE|SORO)\s*AMILASE\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Lipa', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?LIPASE,[\s\S]{0,100}(?:SANGUE|SORO)\s*LIPASE\s*(\d+(?:,\d+)?)/g);
 
-        // Coagulação
+        
         adicionarExame('INR', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?INR =\s*(\d+(?:,\d+)?)/g);
         adicionarExame('R', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?Proctor & Rapaport modificado\s*R =\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Dim-D', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DOSAGEM DO DÍMERO-D QUANTITATIVO,[\s\S]{0,100}(?:SANGUE|SORO)\s*DOSAGEM DO DÍMERO-D QUANTITATIVO\s*([\s\S]*?) ng\/mL/g);
@@ -2037,13 +2037,13 @@
         adicionarExame('FvW', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?FATOR VON WILLEBRAND[\s\S]{0,100},(?:SANGUE|SORO)\s*FATOR VON WILLEBRAND\s*(\d+(?:,\d+)? %)/g);
         adicionarExame('aFvW', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ATIVIDADE DO FATOR VON WILLEBRAND[\s\S]{0,100},(?:SANGUE|SORO)\s*ATIVIDADE DO FATOR VON WILLEBRAND\s*(\d+(?:,\d+)? %)/g);
 
-        // Monitoramento de medicamentos
+        
         adicionarExame('AcValproico', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ÁCIDO VALPRÓICO,[\s\S]{0,100}(?:SANGUE|SORO)\s*ÁCIDO VALPRÓICO\s*(< 12,5|\d+(?:,\d+)?)/g);
         adicionarExame('Vanco', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?VANCOMICINA,[\s\S]{0,100}(?:SANGUE|SORO)\s*VANCOMICINA\s*(< 1,4|\d+(?:,\d+)?)/g);
         adicionarExame('Ciclosporina', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CICLOSPORINA,[\s\S]{0,100}(?:SANGUE|SORO)\s*CICLOSPORINA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('FK', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?TACROLIMUS[\s\S]{0,100},SANGUE TOTAL\s*TACROLIMUS\s*(\d+(?:,\d+)?)/g);
 
-        // Hormônios e marcadores endócrinos
+        
         adicionarExame('TSH', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HORMÔNIO TIREO-ESTIMULANTE \(TSH\)\s*(\d+(?:,\d+)?)/g);
         adicionarExame('T4L', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?TIROXINA LIVRE \(T4L\)\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Anti-TPO', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ANTICORPO ANTI-PEROXIDASE \(ANTI-TPO\)\s*(> 900|< 2|\d+(?:,\d+)?)/g);
@@ -2067,7 +2067,7 @@
         adicionarExame('Aldosterona', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ALDOSTERONA[\s\S]{0,100},(?:SANGUE|SORO)\s*ALDOSTERONA\s*(< 3,0|\d+(?:,\d+)?)/g);
         adicionarExame('Renina', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?RENINA[\s\S]{0,100},(?:SANGUE|SORO)\s*RENINA\s*(< 4,0|\d+(?:,\d+)?)/g);
 
-        // Vitaminas e Oligoelementos
+        
         adicionarExame('VitD', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?25-HIDROXIVITAMINA D\s*(\d+(?:,\d+)?)/g);
         adicionarExame('VitB12', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?VITAMINA B 12\s*(> 2000|\d+(?:,\d+)?|< 148)/g);
         adicionarExame('Gastrina', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GASTRINA[\s\S]{0,100},SORO\s*GASTRINA\s*(< 115|\d+(?:,\d+)?)/g);
@@ -2081,7 +2081,7 @@
         adicionarExame('Zn', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ZINCO[\s\S]{0,100},SORO\s*ZINCO\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Cu', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?COBRE[\s\S]{0,100},(?:SANGUE|SORO)\s*COBRE\s*(\d+(?:,\d+)?)/g);
 
-        // Metabolismo de carboidratos e lipídios
+        
         adicionarExame('Glic', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GLICOSE[\s\S]{0,100},(?:SANGUE|SORO)(?: VENOSO| ARTERIAL)*\s*GLICOSE\s*(\d+(?:,\d+)?)/g);
         adicionarExame('HbGlic', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEMOGLOBINA GLICADA\s*(\d+(?:,\d+)? %)/g);
         adicionarExame('NHDL', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?COLESTEROL NÃO HDL\s*(\d+(?:,\d+)?)/g);
@@ -2091,7 +2091,7 @@
         adicionarExame('HDL', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HDL - COLESTEROL\s*(\d+(?:,\d+)?)/g);
         adicionarExame('LDL', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?LDL - COLESTEROL[\s\S]{0,100},(?:SANGUE|SORO)\s*LDL - COLESTEROL\s*(\d+(?:,\d+)?)/g);
 
-        // Marcadores tumorais
+        
         adicionarExame('CEA', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ANTÍGENO CARCINOEMBRIONÁRIO[\s\S]{0,100},(?:SANGUE|SORO)\s*ANTÍGENO CARCINOEMBRIONÁRIO\s*(< 1,73|\d+(?:,\d+)?)/g);
         adicionarExame('CA19.9', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CA19.9[\s\S]{0,100},(?:SANGUE|SORO)\s*CA19.9\s*(\d+(?:,\d+)?)/g);
         adicionarExame('CA15.3', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CA15.3[\s\S]{0,100},(?:SANGUE|SORO)\s*CA15.3\s*(\d+(?:,\d+)?)/g);
@@ -2100,7 +2100,7 @@
         adicionarExame('PSA.L', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ANTÍGENO PROSTÁTICO ESPECÍFICO LIVRE[\s\S]{0,100},(?:SANGUE|SORO)\s*ANTÍGENO PROSTÁTICO ESPECÍFICO LIVRE\s*(\d+(?:,\d+)?)/g);
         adicionarExame('PSA.L/T', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PSA LIVRE\/PSA TOTAL[\s\S]{0,100},(?:SANGUE|SORO)\s*PSA LIVRE\/PSA TOTAL\s*(\*|\d+(?:,\d+)?)/g);
 
-        // Marcadores Reumatológicos
+        
         adicionarExame('FAN', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?FAN HEP2[\s\S]{0,100},(?:SANGUE|SORO)\s*Núcleo :\s*(Não Reagente)/g);
         adicionarExame('FAN', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?FAN HEP2[\s\S]{0,100},(?:SANGUE|SORO)\s*PADRÃO :\s*([\s\S]*?)[\t\n]/g);
         adicionarExame('FAN.Titulo', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?FAN HEP2[\s\S]{0,100},(?:SANGUE|SORO)\s*PADRÃO[\s\S]{1,300}Titulo\s:\s*([\s\S]*?)[\t\n]/g);
@@ -2133,7 +2133,7 @@
         adicionarExame('C4', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?FRAÇÃO C4 DO COMPLEMENTO\s*(< 2,9|\d+(?:,\d+)?)/g);
         adicionarExame('C3', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?FRAÇÃO C3 DO COMPLEMENTO\s*(\d+(?:,\d+)?)/g);
 
-        // Proteínas e imunoglobulinas
+        
         adicionarExame('DHL', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DESIDROGENASE LÁCTICA[\s\S]{0,100},(?:SANGUE|SORO)\s*DESIDROGENASE LÁCTICA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('b2micro', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?BETA 2 MICROGLOBULINA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Ig.Kappa.Livre', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DOSAGEM DE IMUNOGLOBULINA CLASSE KAPPA LIVRE[\s\S]{0,100},(?:SANGUE|SORO)\s*DOSAGEM DE IMUNOGLOBULINA CLASSE KAPPA LIVRE\s*(\d+(?:,\d+)?)/g);
@@ -2144,7 +2144,7 @@
         adicionarExame('Sezary', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PESQUISA DE CÉLULAS DE SÉZARY[\s\S]{0,100},SANGUE\s*PESQUISA DE CÉLULAS DE SÉZARY\s*(Negativa)/g);  
         adicionarExame('Sezary', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PESQUISA DE CÉLULAS DE SÉZARY[\s\S]{0,100},SANGUE[\s\S]{1,250}Obs\.: Cerca de (\d+(?:,\d+)?%)/g);
 
-        // Proteínas e metabólitos
+        
         adicionarExame('Insulina', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?INSULINA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('PepC', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PEPTÍDEO C\s*(\d+(?:,\d+)?)/g);
         adicionarExame('ProtT', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PROTEÍNAS TOTAIS[\s\S]{0,100},(?:SANGUE|SORO)\s*PROTEÍNAS TOTAIS\s*(\d+(?:,\d+)?)/g);
@@ -2157,7 +2157,7 @@
         adicionarExame('EFHb.F', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ELETROFORESE DE HEMOGLOBINA[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,200}Hemoglobina Fetal\s*:\s*(<0,8 %|\d+(?:,\d+)? %)/g);
         adicionarExame('ASLO', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ANTI-ESTREPTOLISINA O \(ASLO\)\s*(< 50,0|\d+(?:,\d+)?)/g);
         
-        // Imunoglobulinas
+        
         adicionarExame('IgM', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DOSAGEM DE IMUNOGLOBULINA IgM\s*(\d+(?:,\d+)?)/g);
         adicionarExame('IgA', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DOSAGEM DE IMUNOGLOBULINA A\s*(\d+(?:,\d+)?)/g);
         adicionarExame('IgE', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?IMUNOGLOBULINA E\s*(< 15,7|< 157|\d+(?:,\d+)?)/g);
@@ -2168,20 +2168,20 @@
         adicionarExame('LinfB', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?IMUNOFENOTIPAGEM DE LINFÓCITOS T,B E NK[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,600}CD45\/CD19[\s\S]{1,50}%\s*(\d+(?:,\d+)?) células/g);
         adicionarExame('LinfNK', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?IMUNOFENOTIPAGEM DE LINFÓCITOS T,B E NK[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,700}CD45\/CD3-\/CD16\+\/CD56\+[\s\S]{1,50}%\s*(\d+(?:,\d+)?) células/g);
         
-        // Outras proteínas específicas
+        
         adicionarExame('A1AT', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ALFA 1 ANTITRIPSINA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('A1GA', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ALFA 1 GLICOPROTEÍNA ÁCIDA\s*(\d+(?:,\d+)?)/g);
         adicionarExame('Celuroplasmina', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CERULOPLASMINA\s*(\d+(?:,\d+)?)/g);
 
-        // Genética
+        
         adicionarExame('JAK2.V617F', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PESQUISA DA MUTAÇÃO DO GENE JAK2 - V617F[\s\S]{0,100},(?:SANGUE|SORO)\s*PESQUISA DA MUTAÇÃO DO GENE JAK2 - V617F\s*(Presença|Ausência)/g);
 
-        // Sorologias
+        
         adicionarExame('Sífilis', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?SOROLOGIA PARA TREPONEMA PALLIDUM[\s\S]{0,100},(?:SANGUE|SORO)\s*SOROLOGIA PARA TREPONEMA PALLIDUM\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         adicionarExame('VDRL', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?VDRL[\s\S]{0,100},(?:SANGUE|SORO)\s*VDRL\s*Reagente\s*Não Reagente\s*Floculação\s*Título:\s*([\s\S]*?)\s/g);
         adicionarExame('VDRL', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?VDRL[\s\S]{0,100},(?:SANGUE|SORO)\s*VDRL\s*([Nn]ão [Rr]eagente)/g);
         
-        // Hepatites
+        
         adicionarExame('HepA.IgG', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEPATITE A - ANTICORPOS IgG\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         adicionarExame('HepA.IgM', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEPATITE A - ANTICORPOS IgM\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         adicionarExame('HepB.AgHBs', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEPATITE B - AgHBs[\s\S]{0,100},(?:SANGUE|SORO)\s*Resultado:\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
@@ -2194,7 +2194,7 @@
         adicionarExame('HepC', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?HEPATITE C - SOROLOGIA\s*([Nn]ão [Rr]eagente|[Ii]nconclusivo|[Rr]eagente)/g);
         adicionarExame('HCV.CV', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DETECÇÃO QUANTITATIVA DE RNA DO HCV POR PCR EM TEMPO REAL[\s\S]{0,100},(?:SANGUE|SORO)\s*DETECÇÃO QUANTITATIVA DE RNA DO HCV POR PCR EM TEMPO REAL\s*(Não Detectado|\d+(?:,\d+)?)/g);
         
-        // HIV e outros vírus
+        
         adicionarExame('HIV1/2', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?ANTÍGENO P24 DO HIV1 - 1º AMOSTRA[\s\S]{0,100},(?:SANGUE|SORO)\s*Resultado:\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         adicionarExame('HIV1/2.Imunoblot', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?Imunocromatográfico confirmatório 1ª. amostra[\s\S]{0,100},(?:SANGUE|SORO)\s*Imunocromatográfico confirmatório[\s\S]{1,700}Interpretação do Imunoblot Rápido da 1ª. amostra:\s*RESULTADO ([\s\S]*?)\n/g);
         adicionarExame('HIV1.CV', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DETECÇÃO QUANTITATIVA DO RNA DO HIV-1 \(CARGA VIRAL HIV-1\)[\s\S]{0,100},(?:SANGUE|SORO|PLASMA)\s*DETECÇÃO QUANTITATIVA DO RNA DO HIV-1 \(CARGA VIRAL HIV-1\)\s*(Não Detectado)/g);
@@ -2220,7 +2220,7 @@
         adicionarExame('Caxumba.IgM', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CAXUMBA IgM\s*([Nn]ão [Rr]eagente|Indeterminado|[Rr]eagente)/g);
         adicionarExame('Caxumba.IgG', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CAXUMBA IgG\s*([Nn]ão [Rr]eagente|Indeterminado|[Rr]eagente)/g);
         
-        // Tuberculose e outros
+        
         adicionarExame('IGRA', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?TESTE IGRA \(TESTE DE PRODUÇÃO DE INTERFERON GAMA PARA TUBERCULOSE\)\s*([Nn]ão [Rr]eagente|[Rr]eagente|[Ii]ndeterminado)/g);
         adicionarExame('PPD', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?INTRADERMOREAÇÃO PARA PPD,NO PACIENTE\s*INTRADERMOREAÇÃO PARA PPD\s*([\s\S]*?)[\t\n]/g);
         adicionarExame('Aspergillus.Imunodif', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?IMUNODIFUSÃO ASPERGILLUS FUMIGATUS[\s\S]{0,100},(?:SANGUE|SORO)\s*IMUNODIFUSÃO ASPERGILLUS FUMIGATUS\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
@@ -2230,7 +2230,7 @@
         adicionarExame('Aspergillus.Contraimuno', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CONTRAIMUNO ASPERGILLUS FUMIGATUS[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,500}Titulo:\s*(1\/1|1\/2|1\/4|1\/8|1\/16)/g);
         adicionarExame('Histoplasma.Contraimuno', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?CONTRAIMUNO HISTOPLASMA CAPSULATUM[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,500}Titulo:\s*(1\/1|1\/2|1\/4|1\/8|1\/16)/g);
         
-        // COVID e vírus respiratórios
+        
         adicionarExame('TR.COVID', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?Teste Rápido Antígeno Coronavírus 2019-nCoV\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         adicionarExame('PCR.COVID', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?Coronavírus 2019-nCoV,SWAB DE NASOFARINGE\s*Coronavírus 2019-nCoV\s*([Nn]ão [Dd]etectado|[Dd]etectado)/g);
         adicionarExame('PCR.COVID', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?SARS-CoV-2,SWAB DE NASOFARINGE\s*SARS-CoV-2\s*([Nn]ão [Dd]etectado|[Dd]etectado)/g);
@@ -2241,7 +2241,7 @@
         adicionarExame('Dengue.IgG', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?Teste rápido de pesquisa de anticorpos para Dengue: DENGUEMG[\s\S]{0,100},(?:SANGUE|SORO)\s*IgG:\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         adicionarExame('Dengue.IgM', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?Teste rápido de pesquisa de anticorpos para Dengue: DENGUEMG[\s\S]{0,100},(?:SANGUE|SORO)[\s\S]{1,200}IgG:\s*([Nn]ão [Rr]eagente|[Rr]eagente)/g);
         
-        // Gasometria
+        
         adicionarExame('GasoV.pH', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GASOMETRIA[\s\S]{0,100},(?:SANGUE|SORO) VENOSO(?:(?!Coletado em:)[\s\S])*?pH\s*(\d+(?:,\d+)?)/g);
         adicionarExame('GasoV.Bic', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GASOMETRIA[\s\S]{0,100},(?:SANGUE|SORO) VENOSO(?:(?!Coletado em:)[\s\S])*?ctHCO3\s*(\d+(?:,\d+)?)/g);
         adicionarExame('GasoA.pH', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GASOMETRIA[\s\S]{0,100},(?:SANGUE|SORO) ARTERIAL(?:(?!Coletado em:)[\s\S])*?pH\s*(\d+(?:,\d+)?)/g);
@@ -2250,10 +2250,10 @@
         adicionarExame('GasoA.pCO2', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GASOMETRIA[\s\S]{0,100},(?:SANGUE|SORO) ARTERIAL(?:(?!Coletado em:)[\s\S])*?pCO2\s*(\d+(?:,\d+)?)/g);
         adicionarExame('GasoA.SO2', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GASOMETRIA[\s\S]{0,100},(?:SANGUE|SORO) ARTERIAL(?:(?!Coletado em:)[\s\S])*?SO2\s*(\d+(?:,\d+)?)/g);
 
-        // Outros exames
+        
         adicionarExame('Hipolac', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?DETECÇÃO MOLECULAR DA HIPOLACTASIA[\s\S]{0,100},(?:SANGUE|SORO)\s*Detecção Molecular da Hipolactasia\s*([\s\S]*?)[\t\n]/g);
 
-        // Urina
+        
         adicionarExame('U1.pH', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:))\s*URINA TIPO 1,URINA AMOSTRA ISOLADA\s*[\s\S]{1,500}pH\s*:\s*(\d+(?:,\d+)?)/g);
         adicionarExame('U1.Densi', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:))\s*URINA TIPO 1,URINA AMOSTRA ISOLADA\s*[\s\S]{1,500}Densidade\s*:\s*(<1,005|Superior a 1,030|\d+(?:,\d+)?)/g);
         adicionarExame('U1.Prot', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:))\s*URINA TIPO 1,URINA AMOSTRA ISOLADA\s*[\s\S]{1,500}Proteinas\s*:\s*(Inferior a 0,05|\d+(?:,\d+)?)/g);
@@ -2277,12 +2277,12 @@
         adicionarExame('P/C.U24', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?RELAÇÃO DE PROTEINURIA\/CREATININA,URINA DE 24 HORAS\s*RELAÇÃO DE PROTEINURIA\/CREATININA\s*(\*|\d+(?:,\d+)?)/g);
         adicionarExame('Ca/Creat.U24', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?RELAÇÃO DE CALCIO\/CREATININA,URINA DE 24 HORAS\s*RELAÇÃO DE CALCIO\/CREATININA\s*(\*|\d+(?:,\d+)?)/g);
 
-        // Fezes
+        
         adicionarExame('GDH.Fezes', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PESQUISA DE GDH \(Glutamato desidrogenase\) PARA CLOSTRIDIOIDES DIFFICILE,FEZES\s*PESQUISA DE GDH \(Glutamato desidrogenase\) PARA CLOSTRIDIOIDES DIFFICILE\s*([Nn]egativa|[Pp]ositiva)/g);
         adicionarExame('ToxA/B.Fezes', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PESQUISA DE TOXINAS "A" e "B" DE CLOSTRIDIOIDES DIFFICILE,FEZES\s*PESQUISA DE TOXINAS "A" e "B" DE CLOSTRIDIOIDES DIFFICILE\s*([Nn]egativa|[Pp]ositiva)/g);
         adicionarExame('SangueOculto.Fezes', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?SANGUE OCULTO - DETECÇÃO DE HEMOGLOBINA HUMANA NAS FEZES,FEZES\s*SANGUE OCULTO - DETECÇÃO DE HEMOGLOBINA HUMANA NAS FEZES\s*([Nn]egativa|[Pp]ositiva)/g);
 
-        // Líquor
+        
         adicionarExame('LCR.PT', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?PROTEÍNAS TOTAIS,LÍQUOR\s*PROTEÍNAS TOTAIS\s*(\d+(?:,\d+)?)/g);
         adicionarExame('LCR.Glic', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?GLICOSE,LÍQUOR\s*GLICOSE\s*(\d+(?:,\d+)?)/g);
         adicionarExame('LCR.Lac', /Coletado em:\s+(\d+)\/(\d+)\/20(\d+) (\d+:\d+)(?:(?!Coletado em:)[\s\S])*?LACTATO,LÍQUOR\s*LACTATO\s*(\d+(?:,\d+)?)/g);
@@ -2293,14 +2293,14 @@
             resultadosPorData[data] = resultadosPorData[data].replace(/\/$/, '');
         }
         
-        // Extraia as chaves (datas) do objeto e ordene-as de forma decrescente
+        
         var datasOrdenadas = Object.keys(resultadosPorData).sort((a, b) => {
             var dateA = parseDate(a);
             var dateB = parseDate(b);
             return dateA - dateB;
         });
         
-        // Crie um novo objeto ordenado usando as chaves ordenadas
+        
         var resultadosOrdenados = {};
         datasOrdenadas.forEach(data => {
             resultadosOrdenados[data] = resultadosPorData[data];
@@ -2310,37 +2310,37 @@
     }
 
     function parseDate(dateString) {
-        // Define regular expressions for different date formats
+        
         const regexFormats = [
-            /(\d{2})\/(\d{2})\/(\d{2}) (\d{2}:\d{2})/, // dd/mm/yy hh:mm
-            /(\d{2})\/(\d{2})\/(\d{2})/, // dd/mm/yy
-            /(\d{2})\/(\d{2})/ // dd/mm
+            /(\d{2})\/(\d{2})\/(\d{2}) (\d{2}:\d{2})/, 
+            /(\d{2})\/(\d{2})\/(\d{2})/, 
+            /(\d{2})\/(\d{2})/ 
         ];
         
-        // Try each format until one succeeds
+        
         for (const regex of regexFormats) {
             const match = dateString.match(regex);
             if (match) {
-                // Extract parts from the match
+                
                 const parts = match.slice(1);
                 
-                // Construct a date based on the format
-                if (parts.length === 4) { // dd/mm/yy hh:mm
+                
+                if (parts.length === 4) { 
                     const [day, month, year, time] = parts;
                     return new Date(`20${year}-${month}-${day}T${time}`);
-                } else if (parts.length === 3) { // dd/mm/yy
+                } else if (parts.length === 3) { 
                     const [day, month, year] = parts;
                     return new Date(`20${year}-${month}-${day}`);
-                } else if (parts.length === 2) { // dd/mm
+                } else if (parts.length === 2) { 
                     const [day, month] = parts;
-                    // Use current year for dd/mm format
+                    
                     const currentYear = new Date().getFullYear();
                     return new Date(`${currentYear}-${month}-${day}`);
                 }
             }
         }
         
-        // If none of the formats match, return a very old date (for sorting purposes)
+        
         return new Date(0);
     }
 
@@ -2349,9 +2349,9 @@
         return match ? match[1] : 'N/A';
     }
 
-    // Script para inicializar a interface quando a página carrega
+    
     document.addEventListener('DOMContentLoaded', function() {
-        // Mostrar toast
+        
         function showToast(message, duration = 3000) {
             const toast = document.createElement('div');
             toast.className = 'toast animate__animated animate__fadeIn';
@@ -2367,7 +2367,7 @@
             }, duration);
         }
         
-        // Copiar para clipboard
+        
         window.copyToClipboard = function() {
             const text = document.getElementById('resultadoCompactado').innerText;
             navigator.clipboard.writeText(text)
@@ -2379,7 +2379,7 @@
                 });
         };
         
-        // Função para animar elementos ao rolar a página
+        
         const animateOnScroll = () => {
             const elements = document.querySelectorAll('.animated-element');
             elements.forEach(element => {
@@ -2392,32 +2392,32 @@
             });
         };
         
-        // Adicionar classe aos elementos que devem ser animados
+        
         document.querySelectorAll('.card, .table-responsive').forEach(el => {
             el.classList.add('animated-element');
         });
         
-        // Inicializar animações
-        window.addEventListener('scroll', animateOnScroll);
-        animateOnScroll(); // Para animar elementos já visíveis no carregamento
         
-        // Inicializar AOS (Animate on Scroll)
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); 
+        
+        
         AOS.init({
             duration: 800,
             easing: 'ease-out',
             once: true
         });
         
-        // Remover indicador de carregamento
+        
         setTimeout(() => {
             const loader = document.getElementById('loading');
             if (loader) {
                 loader.style.opacity = '0';
                 setTimeout(() => {
                     loader.style.display = 'none';
-                }, 500);
+                }, 100);
             }
-        }, 1000);
+        }, 200);
     });
     </script>
 </body>
