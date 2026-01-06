@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK Plan - Planos de Saúde e Convênio Médico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #00FFA3;
+            --accent: #0099FF;
+            --green-medical: #4CAF50;
+            --blue-medical: #00BFFF;
+            --dark: #000000;
+            --darker: #0a0a0a;
+            --light: #FFFFFF;
+            --gray-light: #1a1a1a;
+            --gray-medium: #2a2a2a;
+            --gray-dark: #999999;
+            --text: #E0E0E0;
+            --text-light: #B0B0B0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.1);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+            text-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+            position: relative;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 30px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10rem 5% 4rem;
+            position: relative;
+            background: var(--dark);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            animation: fadeInUp 1s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            text-align: left;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-placeholder {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(0, 255, 163, 0.2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.3);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            backdrop-filter: blur(10px);
+            animation: float 6s ease-in-out infinite;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+            position: relative;
+            text-shadow: 0 0 50px rgba(0, 217, 255, 0.5);
+        }
+
+        h1 span {
+            display: inline-block;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                filter: drop-shadow(0 0 5px var(--primary)) drop-shadow(0 0 15px var(--primary));
+            }
+            to {
+                filter: drop-shadow(0 0 10px var(--secondary)) drop-shadow(0 0 30px var(--secondary));
+            }
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: 2.5rem;
+            color: var(--text-light);
+            font-weight: 400;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            background: rgba(0, 217, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .trust-badge::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.4);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+            text-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--text-light);
+            margin-bottom: 3.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Info Bar */
+        .info-bar {
+            background: rgba(0, 217, 255, 0.05);
+            padding: 2rem 5%;
+            border-top: 2px solid rgba(0, 217, 255, 0.3);
+            border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+            position: relative;
+        }
+
+        .info-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: slide 3s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .info-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .info-item {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .info-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Plans Section */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .plan-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .plan-card:hover::before {
+            opacity: 1;
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px rgba(0, 217, 255, 0.3);
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .plan-card.featured {
+            border: 2px solid var(--primary);
+            background: rgba(0, 217, 255, 0.1);
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.25);
+        }
+
+        .plan-card.featured::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .plan-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
+            }
+        }
+
+        .plan-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.3rem;
+        }
+
+        .plan-period {
+            color: var(--gray-dark);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            border-top: 2px solid rgba(0, 217, 255, 0.2);
+            padding-top: 1.5rem;
+        }
+
+        .plan-features li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: rgba(10, 10, 10, 0.6);
+            border-radius: 12px;
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 217, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.3);
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .benefit-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(0, 217, 255, 0.6));
+            animation: float 3s ease-in-out infinite;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .benefit-card:nth-child(1) .benefit-icon { animation-delay: 0s; }
+        .benefit-card:nth-child(2) .benefit-icon { animation-delay: 0.3s; }
+        .benefit-card:nth-child(3) .benefit-icon { animation-delay: 0.6s; }
+        .benefit-card:nth-child(4) .benefit-icon { animation-delay: 0.9s; }
+        .benefit-card:nth-child(5) .benefit-icon { animation-delay: 1.2s; }
+        .benefit-card:nth-child(6) .benefit-icon { animation-delay: 1.5s; }
+
+        .benefit-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .benefit-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            padding: 1.5rem;
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+            animation: pulse-step 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-step {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0, 217, 255, 0.8);
+            }
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--light);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .step p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            background: rgba(10, 10, 10, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--light);
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .faq-toggle {
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+            color: var(--text-light);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 4rem 5% 2rem;
+            border-top: 2px solid rgba(0, 217, 255, 0.3);
+            margin-top: 5rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), var(--primary), transparent);
+            background-size: 200% auto;
+            animation: shimmer 4s linear infinite;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            padding: 0;
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 217, 255, 0.4);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-placeholder {
+                max-width: 100%;
+                height: 300px;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: rgba(0, 0, 0, 0.98);
+                width: 100%;
+                padding: 2rem;
+                transition: left 0.3s;
+                box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+                gap: 1rem;
+                border-bottom: 2px solid var(--primary);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .mobile-menu.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .mobile-menu.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(8px, -8px);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .plan-card.featured {
+                transform: scale(1);
+            }
+
+            .info-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .trust-badges {
+                justify-content: center;
+            }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="content">
+        <header>
+            <nav>
+                <div class="logo">MK PLAN</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#planos">Planos</a></li>
+                    <li><a href="#beneficios">Benefícios</a></li>
+                    <li><a href="#como-funciona">Como Funciona</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+                <div class="mobile-menu" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Saúde completa para <span>você e sua família</span></h1>
+                    <p>O MK Plan oferece os melhores planos de saúde com cobertura nacional, rede credenciada premium e atendimento humanizado. Seu bem-estar é nossa prioridade.</p>
+                    <div class="trust-badges">
+                        <div class="trust-badge">Registro ANS</div>
+                        <div class="trust-badge">Cobertura Nacional</div>
+                        <div class="trust-badge">24/7 Disponível</div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#planos" class="btn btn-primary">Conhecer Planos</a>
+                        <a href="#contato" class="btn btn-secondary">Fale com Especialista</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-placeholder">MK</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="info-bar">
+            <div class="info-content">
+                <div class="info-item fade-in">
+                    <div class="info-number">15+</div>
+                    <div class="info-label">Anos no mercado</div>
+                </div>
+                <div class="info-item fade-in">
+                    <div class="info-number">500+</div>
+                    <div class="info-label">Hospitais credenciados</div>
+                </div>
+                <div class="info-item fade-in">
+                    <div class="info-number">1M+</div>
+                    <div class="info-label">Vidas atendidas</div>
+                </div>
+                <div class="info-item fade-in">
+                    <div class="info-number">98%</div>
+                    <div class="info-label">Satisfação dos clientes</div>
+                </div>
+            </div>
+        </div>
+
+        <section id="planos">
+            <h2 class="section-title fade-in">Nossos Planos de Saúde</h2>
+            <p class="section-subtitle fade-in">Escolha o plano ideal para você e sua família. Todos com cobertura nacional e qualidade garantida pela ANS.</p>
+            
+            <div class="plans-grid">
+                <div class="plan-card fade-in">
+                    <div class="plan-name">MK Essencial</div>
+                    <div class="plan-price">R$ 500</div>
+                    <div class="plan-period">por mês</div>
+                    <ul class="plan-features">
+                        <li>Consultas médicas ilimitadas</li>
+                        <li>Exames laboratoriais básicos</li>
+                        <li>Urgência e emergência 24h</li>
+                        <li>Rede credenciada em todo Brasil</li>
+                        <li>Telemedicina disponível</li>
+                        <li>Até 2 dependentes inclusos</li>
+                        <li>Carência reduzida</li>
+                        <li>Cobertura hospitalar</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-primary" style="width: 100%;">Contratar Agora</a>
+                </div>
+
+                <div class="plan-card fade-in">
+                    <div class="plan-name">MK Plus</div>
+                    <div class="plan-price">R$ 2.500</div>
+                    <div class="plan-period">por mês</div>
+                    <ul class="plan-features">
+                        <li>Todos os benefícios do Essencial</li>
+                        <li>Exames de imagem completos</li>
+                        <li>Internações hospitalares</li>
+                        <li>Cirurgias eletivas</li>
+                        <li>Quimioterapia e radioterapia</li>
+                        <li>Fisioterapia e reabilitação</li>
+                        <li>Check-up anual gratuito</li>
+                        <li>Até 4 dependentes inclusos</li>
+                        <li>Acomodação enfermaria</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-primary" style="width: 100%;">Contratar Agora</a>
+                </div>
+
+                <div class="plan-card featured fade-in">
+                    <div class="plan-badge">Mais Procurado</div>
+                    <div class="plan-name">MK Premium</div>
+                    <div class="plan-price">R$ 6.000</div>
+                    <div class="plan-period">por mês</div>
+                    <ul class="plan-features">
+                        <li>Todos os benefícios do Plus</li>
+                        <li>Cobertura internacional emergencial</li>
+                        <li>Acomodação em quarto privativo</li>
+                        <li>Acesso a hospitais de excelência</li>
+                        <li>Tratamentos de alta complexidade</li>
+                        <li>Próteses e órteses</li>
+                        <li>Acompanhamento nutricional</li>
+                        <li>Atendimento psicológico</li>
+                        <li>Home care disponível</li>
+                        <li>Dependentes ilimitados</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-primary" style="width: 100%;">Contratar Agora</a>
+                </div>
+
+                <div class="plan-card fade-in">
+                    <div class="plan-name">MK Elite</div>
+                    <div class="plan-price">R$ 10.000</div>
+                    <div class="plan-period">por mês</div>
+                    <ul class="plan-features">
+                        <li>Todos os benefícios do Premium</li>
+                        <li>Acesso a hospitais VIP nacionais</li>
+                        <li>Concierge médico 24/7</li>
+                        <li>Medicina preventiva avançada</li>
+                        <li>Transplantes cobertos</li>
+                        <li>Genética e medicina personalizada</li>
+                        <li>Segunda opinião internacional</li>
+                        <li>Remoção inter-hospitalar</li>
+                        <li>Suíte hospitalar premium</li>
+                        <li>Sem carência para procedimentos</li>
+                    </ul>
+                    <a href="#contato" class="btn btn-primary" style="width: 100%;">Contratar Agora</a>
+                </div>
+
+                <div class="plan-card fade-in">
+                    <div class="plan-badge">Premium Ultimate</div>
+                    <div class="plan-name">MK Platinum</div>
+                    <div class="plan-price">R$ 15.000</div>
+                    <div class="plan-period">por mês</div>
+                    <ul class="plan-features">
+                        <li>Acesso a TODOS os hospitais do Brasil</li>
+                        <li>Você paga o procedimento diretamente*</li>
+                        <li>Cobertura 100% sem limites</li>
+                        <li>Equipe médica exclusiva</li>
+                        <li>Tratamentos experimentais aprovados</li>
+                        <li>Remoção aérea nacional e internacional</li>
+                        <li>Sem qualquer carência</li>
+                        <li>Cobertura mundial completa</li>
+                        <li>Concierge lifestyle médico</li>
+                        <li>Atendimento domiciliar premium</li>
+                        <li>Suíte master com acompanhante</li>
+                    </ul>
+                    <p style="font-size: 0.8rem; margin-top: 1rem; color: var(--gray-dark); line-height: 1.5;">*Você paga diretamente o valor que o hospital cobra pelo procedimento, sem markup ou custos adicionais. Valor exato, sem intermediação.</p>
+                    <a href="#contato" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Contratar Agora</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="beneficios">
+            <h2 class="section-title fade-in">Diferenciais MK Plan</h2>
+            <p class="section-subtitle fade-in">Cuidado com a sua saúde vai além do básico. Conheça nossos benefícios exclusivos</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">+</div>
+                    <h3 class="benefit-title">Rede Credenciada Premium</h3>
+                    <p>Acesso a mais de 500 hospitais e 10.000 médicos credenciados. Incluindo os principais centros de excelência médica do país.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">◆</div>
+                    <h3 class="benefit-title">App Integrado</h3>
+                    <p>Agendamento online, prontuário digital, telemedicina 24h e resultados de exames na palma da sua mão. Tudo em um só lugar.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">★</div>
+                    <h3 class="benefit-title">Atendimento Ágil</h3>
+                    <p>Autorização de procedimentos em até 2 horas. Reembolso processado em até 5 dias úteis. Sem burocracia desnecessária.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">●</div>
+                    <h3 class="benefit-title">Equipe Especializada</h3>
+                    <p>Central de relacionamento com enfermeiros e médicos disponíveis 24/7 para tirar suas dúvidas e orientar sobre sua saúde.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">✦</div>
+                    <h3 class="benefit-title">Programas de Prevenção</h3>
+                    <p>Acompanhamento de doenças crônicas, programas de vacinação, check-ups preventivos e campanhas de conscientização.</p>
+                </div>
+
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">◉</div>
+                    <h3 class="benefit-title">Cobertura Nacional</h3>
+                    <p>Utilize seu plano em qualquer lugar do Brasil. Emergências cobertas em todo território nacional sem custos adicionais.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="como-funciona">
+            <h2 class="section-title fade-in">Como Funciona</h2>
+            <p class="section-subtitle fade-in">Contratação simples, rápida e 100% digital</p>
+            
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Escolha seu Plano</h3>
+                    <p>Compare as opções disponíveis e escolha o plano que melhor atende suas necessidades e da sua família. Nossos consultores estão prontos para ajudar.</p>
+                </div>
+
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Preencha o Cadastro</h3>
+                    <p>Processo 100% online em menos de 10 minutos. Você precisará apenas de seus documentos pessoais e informações de saúde básicas.</p>
+                </div>
+
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Análise e Aprovação</h3>
+                    <p>Nossa equipe analisa seu cadastro em até 24 horas. Você receberá a confirmação por email e SMS com todos os detalhes do seu plano.</p>
+                </div>
+
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Comece a Usar</h3>
+                    <p>Receba sua carteirinha digital no app e comece a utilizar imediatamente. Agende consultas, exames e tenha acesso a todos os benefícios.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2 class="section-title fade-in">Perguntas Frequentes</h2>
+            <p class="section-subtitle fade-in">Tire suas dúvidas sobre o MK Plan e nossos serviços</p>
+            
+            <div class="faq-container">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Qual é o período de carência dos planos?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>As carências seguem as normas da ANS: 24 horas para urgência e emergência, 180 dias para partos, 24 meses para doenças pré-existentes (CPT) e 300 dias para cirurgias de alta complexidade. O plano MK Platinum não possui carências.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Como funciona o plano MK Platinum com taxa simbólica?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No MK Platinum, você tem acesso a qualquer hospital do Brasil. Você paga uma mensalidade de R$ 15.000 e, ao realizar procedimentos, paga diretamente o valor exato que o hospital cobra, sem markup ou custos adicionais. É total liberdade de escolha sem intermediação de valores.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Posso incluir dependentes no meu plano?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! Podem ser incluídos cônjuge ou companheiro(a), filhos até 21 anos (ou 24 se universitário) e pais. O número de dependentes varia por plano: Essencial (até 2), Plus (até 4) e Premium/Elite/Platinum (ilimitados). Cada dependente tem um custo adicional.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Como funciona o reembolso?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Se você utilizar um médico ou serviço fora da rede credenciada, pode solicitar reembolso seguindo a tabela da ANS. Envie os documentos pelo app e o reembolso é processado em até 5 dias úteis. Os valores seguem os limites estabelecidos pela ANS.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>O plano cobre procedimentos estéticos?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Procedimentos estéticos são cobertos apenas quando têm função reparadora (pós-acidentes, queimaduras, cirurgias oncológicas, etc). Procedimentos puramente estéticos não são cobertos por nenhum plano de saúde conforme regulamentação da ANS.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Posso usar o plano em qualquer estado?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! Todos os nossos planos têm cobertura nacional. Você pode utilizar a rede credenciada em qualquer estado do Brasil. Para emergências, o atendimento é garantido em todo território nacional.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Como posso agendar consultas?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Você pode agendar pelo app MK Plan, telefone 0800 ou WhatsApp. O app permite ver disponibilidade em tempo real, escolher especialistas e confirmar na hora. Consultas de urgência podem ser marcadas 24 horas por dia.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>O que fazer em caso de emergência?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Em emergências, dirija-se ao hospital credenciado mais próximo apresentando sua carteirinha. Se não houver hospital credenciado, qualquer hospital é obrigado a atender e depois você nos aciona para regularização. Ligue para nossa central 24h: 0800 123 4567.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contato">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MK PLAN</h3>
+                    <p>Há mais de 15 anos cuidando da saúde de milhões de brasileiros. Planos de saúde com qualidade, transparência e compromisso com o seu bem-estar.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">F</a>
+                        <a href="#" aria-label="Instagram">I</a>
+                        <a href="#" aria-label="LinkedIn">L</a>
+                        <a href="#" aria-label="YouTube">Y</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Planos de Saúde</h3>
+                    <ul>
+                        <li><a href="#planos">MK Essencial - R$ 500/mês</a></li>
+                        <li><a href="#planos">MK Plus - R$ 2.500/mês</a></li>
+                        <li><a href="#planos">MK Premium - R$ 6.000/mês</a></li>
+                        <li><a href="#planos">MK Elite - R$ 10.000/mês</a></li>
+                        <li><a href="#planos">MK Platinum - R$ 15.000/mês</a></li>
+                        <li><a href="#">Comparar Planos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Institucional</h3>
+                    <ul>
+                        <li><a href="#">Sobre a MK Plan</a></li>
+                        <li><a href="#">Rede Credenciada</a></li>
+                        <li><a href="#">Trabalhe Conosco</a></li>
+                        <li><a href="#">Ouvidoria</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Atendimento</h3>
+                    <ul>
+                        <li>Central: 0800 123 4567</li>
+                        <li>WhatsApp: (11) 98765-4321</li>
+                        <li>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fe9d91908a9f8a91be93958e929f90d09d9193d09c8c">[email&#160;protected]</a></li>
+                        <li>Endereço: São Paulo - SP</li>
+                        <li>Horário: Seg a Sex: 8h às 20h</li>
+                        <li>Emergência: 24h</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 MK Plan - Planos de Saúde. Todos os direitos reservados.</p>
+                <p style="margin-top: 0.5rem;">ANS Nº 123456 | CNPJ: 00.000.000/0001-00 | Registro na ANS conforme Lei 9.656/98</p>
+            </div>
+        </footer>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Three.js 3D Web Animation with Interactive Lines
+        let scene, camera, renderer, particles, lines, mouseX = 0, mouseY = 0;
+        const particlesData = [];
+        const maxConnections = 3;
+        const minDistance = 4;
+
+        function initThree() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 10;
+
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Create particles with cyan and green colors
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 800;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount; i++) {
+                const x = (Math.random() - 0.5) * 80;
+                const y = (Math.random() - 0.5) * 80;
+                const z = (Math.random() - 0.5) * 80;
+                
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+
+                // Vibrant cyan and green colors
+                const colorChoice = Math.random();
+                if (colorChoice < 0.6) {
+                    // Cyan (#00D9FF)
+                    colors[i * 3] = 0;
+                    colors[i * 3 + 1] = 0.85;
+                    colors[i * 3 + 2] = 1;
+                } else {
+                    // Green (#00FFA3)
+                    colors[i * 3] = 0;
+                    colors[i * 3 + 1] = 1;
+                    colors[i * 3 + 2] = 0.64;
+                }
+
+                particlesData.push({
+                    velocity: new THREE.Vector3(
+                        (Math.random() - 0.5) * 0.02,
+                        (Math.random() - 0.5) * 0.02,
+                        (Math.random() - 0.5) * 0.02
+                    ),
+                    numConnections: 0
+                });
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.15,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.9,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Create lines for connections (web effect)
+            const lineGeometry = new THREE.BufferGeometry();
+            const linePositions = new Float32Array(particleCount * particleCount * 3);
+            const lineColors = new Float32Array(particleCount * particleCount * 3);
+            
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+            lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+
+            const lineMaterial = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.4,
+                blending: THREE.AdditiveBlending
+            });
+
+            lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lines);
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate particles slowly
+            particles.rotation.y += 0.0002;
+
+            // Update particle positions
+            const positions = particles.geometry.attributes.position.array;
+            const colors = particles.geometry.attributes.color.array;
+
+            for (let i = 0; i < particlesData.length; i++) {
+                const particleData = particlesData[i];
+                
+                positions[i * 3] += particleData.velocity.x;
+                positions[i * 3 + 1] += particleData.velocity.y;
+                positions[i * 3 + 2] += particleData.velocity.z;
+
+                // Bounce off boundaries
+                if (positions[i * 3] < -40 || positions[i * 3] > 40) particleData.velocity.x *= -1;
+                if (positions[i * 3 + 1] < -40 || positions[i * 3 + 1] > 40) particleData.velocity.y *= -1;
+                if (positions[i * 3 + 2] < -40 || positions[i * 3 + 2] > 40) particleData.velocity.z *= -1;
+
+                particleData.numConnections = 0;
+            }
+
+            // Update connections (web lines)
+            const linePositions = lines.geometry.attributes.position.array;
+            const lineColors = lines.geometry.attributes.color.array;
+            let vertexpos = 0;
+            let colorpos = 0;
+            let numConnected = 0;
+
+            for (let i = 0; i < particlesData.length; i++) {
+                const particleDataA = particlesData[i];
+
+                for (let j = i + 1; j < particlesData.length; j++) {
+                    const particleDataB = particlesData[j];
+
+                    const dx = positions[i * 3] - positions[j * 3];
+                    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+                    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+                    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                    if (dist < minDistance) {
+                        particleDataA.numConnections++;
+                        particleDataB.numConnections++;
+
+                        const alpha = 1.0 - dist / minDistance;
+
+                        linePositions[vertexpos++] = positions[i * 3];
+                        linePositions[vertexpos++] = positions[i * 3 + 1];
+                        linePositions[vertexpos++] = positions[i * 3 + 2];
+
+                        linePositions[vertexpos++] = positions[j * 3];
+                        linePositions[vertexpos++] = positions[j * 3 + 1];
+                        linePositions[vertexpos++] = positions[j * 3 + 2];
+
+                        // Color based on particle A
+                        lineColors[colorpos++] = colors[i * 3];
+                        lineColors[colorpos++] = colors[i * 3 + 1];
+                        lineColors[colorpos++] = colors[i * 3 + 2];
+
+                        lineColors[colorpos++] = colors[j * 3];
+                        lineColors[colorpos++] = colors[j * 3 + 1];
+                        lineColors[colorpos++] = colors[j * 3 + 2];
+
+                        numConnected++;
+                    }
+
+                    if (particleDataA.numConnections >= maxConnections) break;
+                }
+            }
+
+            lines.geometry.setDrawRange(0, numConnected * 2);
+            lines.geometry.attributes.position.needsUpdate = true;
+            lines.geometry.attributes.color.needsUpdate = true;
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            // Strong mouse interaction
+            camera.position.x += (mouseX * 0.002 - camera.position.x) * 0.08;
+            camera.position.y += (-mouseY * 0.002 - camera.position.y) * 0.08;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        // Mouse move event with stronger influence
+        document.addEventListener('mousemove', (event) => {
+            mouseX = event.clientX - window.innerWidth / 2;
+            mouseY = event.clientY - window.innerHeight / 2;
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Initialize Three.js
+        initThree();
+
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+                
+                // Close all FAQs
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                });
+
+                // Open clicked FAQ if it wasn't active
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
